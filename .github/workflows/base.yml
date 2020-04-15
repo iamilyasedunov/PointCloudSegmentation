@@ -33,3 +33,6 @@ jobs:
           cd PointCloudSegmentation/docker-env
           docker build -t jupyter .
           docker images
+    # Push image to docker-hub
+    - name: build image
+      run: docker push dockeridze/point_cloud_segmentation:initial-build
