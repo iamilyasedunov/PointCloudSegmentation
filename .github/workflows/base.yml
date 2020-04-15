@@ -36,4 +36,5 @@ jobs:
         echo Add other actions to build,
         echo test, and deploy your project.
     - run: pwd
-    - run: la -l
+    - run: ls -la
+    - run: mkdir projects && cd projects && pwd
