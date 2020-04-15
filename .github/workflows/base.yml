@@ -6,7 +6,7 @@ name: CI
 # events but only for the master branch
 on:
   fork:
-    
+  commit_comment: [ dev ]
   push:
     branches: [ master ]
   pull_request:
