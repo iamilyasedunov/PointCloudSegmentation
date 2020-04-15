@@ -27,7 +27,7 @@
 
 ## How to dockerize this:
 ---
-- In *base-notebook/* folder start Docker and build an image:
+- In *docker-env/* folder start Docker and build an image:
   `$ docker build -t jupyter .`
 - After that you can verify a successful build by running: `$ docker images`
 - Then start container by running:<br><br>
