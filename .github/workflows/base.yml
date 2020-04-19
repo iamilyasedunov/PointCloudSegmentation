@@ -47,6 +47,9 @@ jobs:
           ls
           pwd
           docker build -t $DOCKER_REP_NAME $BUILD_DIR/
+      - name: Docker images
+        run: |
+          docker images
       - name: Docker push
         run: |
           docker push $DOCKER_REP_NAME:$BUILD_NUMBER
