@@ -44,6 +44,7 @@ jobs:
 
       - name: Docker build
         run: |
+          pwd
           docker build -t $DOCKER_REP_NAME $BUILD_DIR/
       - name: Docker push
         run: |
