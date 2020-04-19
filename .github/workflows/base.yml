@@ -13,22 +13,24 @@ on:
     branches: [ master ]
 
 jobs:
-  codeStyle:
-    runs-on: [ubuntu-latest]
-    steps: 
-      - uses: actions/checkout@v2
-      - name: autopep8
-        uses: peter-evans/autopep8@v1
-        with:
-          args: --recursive --in-place --aggressive --aggressive .
+  #codeStyle:
+  #  runs-on: [ubuntu-latest]
+  #  steps: 
+  #    - uses: actions/checkout@v2
+  #    - name: autopep8
+  #      uses: peter-evans/autopep8@v1
+  #      with:
+  #        args: --recursive --in-place --aggressive --aggressive .
   build:
     runs-on: ubuntu-latest
-    needs: codeStyle
+  # needs: codeStyle
     steps:
     - uses: actions/checkout@v2    
     - name: Docker login
       run: |
           docker --version
+          echo $DOCKER_HUB_LOGIN
+          echo $DOCKER_HUB_PASSWORD
           docker login --username=$DOCKER_HUB_LOGIN --password=$DOCKER_HUB_PASSWORD
           pwd
     # Runs a single command using the runners shell
