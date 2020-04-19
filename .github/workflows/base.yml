@@ -3,7 +3,7 @@
 name: CI
 
 env: 
-  AUTHOR: ${{ github.event.comment.user.login }}
+  AUTHOR: ${{ github.event.comment.user.name }}
   PROJECT_NAME:    PointCloudSegmentation
   BUILD_DIR:       docker-env
   DOCKER_REP_NAME: point_cloud_segmentation
