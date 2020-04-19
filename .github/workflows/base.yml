@@ -26,13 +26,11 @@ jobs:
   # needs: codeStyle
     steps:
     - uses: actions/checkout@v2    
-    - name: Docker login
-      run: |
-          docker --version
-          echo $DOCKER_HUB_LOGIN
-          echo $DOCKER_HUB_PASSWORD
-          winpty docker login --username=$DOCKER_HUB_LOGIN --password=$DOCKER_HUB_PASSWORD
-          pwd
+    - uses: azure/docker-login@v1
+      with:
+        login-server: contoso.azurecr.io
+        username: ${{ secrets.DOCKER_HUB_LOGIN }}
+        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
     # Runs a single command using the runners shell
     # - name: clone repo
     #  run: git clone https://github.com/iamilyasedunov/PointCloudSegmentation.git -b dev
