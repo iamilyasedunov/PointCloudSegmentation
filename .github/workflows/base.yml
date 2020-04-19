@@ -31,7 +31,7 @@ jobs:
           docker --version
           echo $DOCKER_HUB_LOGIN
           echo $DOCKER_HUB_PASSWORD
-          docker login --username=$DOCKER_HUB_LOGIN --password=$DOCKER_HUB_PASSWORD
+          winpty docker login --username=$DOCKER_HUB_LOGIN --password=$DOCKER_HUB_PASSWORD
           pwd
     # Runs a single command using the runners shell
     # - name: clone repo
