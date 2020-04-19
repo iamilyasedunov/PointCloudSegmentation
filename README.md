@@ -1,4 +1,5 @@
 # PointCloudSegmentation
+[![Actions Status](https://github.com/iamilyasedunov/PointCloudSegmentation/.github/workflows/telegram%20message/badge.svg)](https://github.com/iamilyasedunov/PointCloudSegmentation/actions)
 ---
 <img src="https://github.com/VirtualRoyalty/PointCloudSegmentation/blob/master/obstacle-detection/examples/img/MainGifwithLabels.gif" width="1000">
 
