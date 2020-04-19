@@ -3,11 +3,9 @@
 name: CI
 
 env: 
-  AUTHOR: $GITHUB_ACTOR
   PROJECT_NAME:    PointCloudSegmentation
   BUILD_DIR:       docker-env
   DOCKER_REP_NAME: point_cloud_segmentation
-  DOCKER_HUB_NAME: dockeridze
 on:
   fork:
   push:
@@ -49,9 +47,13 @@ jobs:
      # - name: Docker push
      #   run: |
      #     docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
+  notification:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
     - uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          The ${{ github.event_name }} event from ${{ env.PROJECT_NAME }}. Build ${{ github.actor }} $AUTHOR passed!
+          The ${{ github.event_name }} event from ${{ env.PROJECT_NAME }}. Build ${{ github.actor }} passed!
