@@ -54,5 +54,5 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            The ${{ github.event_name }} event from ${{ github.action }}.
+            The ${{ github.event_name }} event from ${{ env.PROJECT_NAME }}.
             Build passed!
