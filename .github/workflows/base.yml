@@ -30,23 +30,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: Actions git repo
-      - uses: azure/docker-login@v1
-        name: Docker login
-        with:
-          login-server: contoso.azurecr.io
-          username: ${{ secrets.DOCKER_HUB_LOGIN }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Docker login
+        run: |
+          docker login -u ${{ secrets.DOCKER_HUB_LOGIN }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} docker.io
       - name: Generate build number
         uses: einaregilsson/build-number@v2 
         with:
           token: ${{secrets.GIT_TOKEN}}        
       - name: Print new build number
         run: echo "Build number is $BUILD_NUMBER"
-
       - name: Docker build
         run: |
           ls
-          pwd
           docker build -t ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER $BUILD_DIR/
           docker images
       - name: Docker push
