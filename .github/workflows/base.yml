@@ -3,6 +3,7 @@
 name: CI
 
 env: 
+  AUTHOR: $GITHUB_ACTOR
   PROJECT_NAME:    PointCloudSegmentation
   BUILD_DIR:       docker-env
   DOCKER_REP_NAME: point_cloud_segmentation
@@ -53,4 +54,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          The ${{ github.event_name }} event from ${{ env.PROJECT_NAME }}. Build ${{ github.author }} passed!
+          The ${{ github.event_name }} event from ${{ env.PROJECT_NAME }}. Build ${{ github.actor }} $AUTHOR passed!
