@@ -3,7 +3,7 @@
 name: CI
 
 env: 
-  AUTHOR: ${{ github.user.name }}
+  AUTHOR: ${{ github.config.user.name }}
   PROJECT_NAME:    PointCloudSegmentation
   BUILD_DIR:       docker-env
   DOCKER_REP_NAME: point_cloud_segmentation
@@ -49,10 +49,9 @@ jobs:
      # - name: Docker push
      #   run: |
      #     docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
-      - name: Send telegram notification
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            The ${{ github.event_name }} event from ${{ env.PROJECT_NAME }}. Build ${{ env.PROJECT_NAME }} passed!
+    - uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          The ${{ github.event_name }} event from ${{ env.PROJECT_NAME }}. Build ${{ AUTHOR }} passed!
