@@ -43,7 +43,7 @@ jobs:
 
     - name: Docker build
       run: |
-        docker build -t $PROJECT_NAME:$BUILD_NUMBER $PROJECT_NAME/$BUILD_DIR
+        docker build -t $DOCKER_HUB_LOGIN/$DOCKER_REP_NAME $PROJECT_NAME/$BUILD_DIR
     - name: Docker push
       run: |
         docker push $DOCKER_HUB_LOGIN/$DOCKER_REP_NAME:$BUILD_NUMBER
