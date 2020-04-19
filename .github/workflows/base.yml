@@ -42,7 +42,8 @@ jobs:
       - name: Docker build
         run: |
           ls
-          docker build -t ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER $BUILD_DIR/
+          docker build -t ${{ secrets.DOCKER_HUB_LOGIN }} $BUILD_DIR/
+          docker tag ${{ secrets.DOCKER_HUB_LOGIN }} ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
           docker images
       - name: Docker push
         run: |
