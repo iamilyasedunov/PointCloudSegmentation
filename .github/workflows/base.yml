@@ -6,6 +6,7 @@ env:
   PROJECT_NAME:    PointCloudSegmentation
   BUILD_DIR:       docker-env
   DOCKER_REP_NAME: point_cloud_segmentation
+  DOCKER_HUB_NAME: dockeridze
 on:
   fork:
   push:
@@ -47,13 +48,19 @@ jobs:
           ls
           pwd
           docker build -t $DOCKER_REP_NAME $BUILD_DIR/
-          docker tag $DOCKER_REP_NAME $DOCKER_HUB_LOGIN/$DOCKER_REP_NAME:$BUILD_NUMBER
+          docker tag $DOCKER_REP_NAME $DOCKER_HUB_NAME/$DOCKER_REP_NAME:$BUILD_NUMBER
+      - name: Send telegram notification
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          args: The PointCloudSegmentation build № $BUILD_NUMBER builded.
       - name: Docker images
         run: |
           docker images
       - name: Docker push
         run: |
-          docker push $DOCKER_HUB_LOGIN/$DOCKER_REP_NAME:$BUILD_NUMBER
+          docker push $DOCKER_HUB_NAME/$DOCKER_REP_NAME:$BUILD_NUMBER
     # Runs a single command using the runners shell
     # - name: clone repo
     #  run: git clone https://github.com/iamilyasedunov/PointCloudSegmentation.git -b dev
