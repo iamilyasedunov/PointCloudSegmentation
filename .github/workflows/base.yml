@@ -29,6 +29,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       name: Actions git repo
+      env: 
+        STATUS : ${{ job.status }}
      # - name: Docker login
      #   run: |
      #     docker login -u ${{ secrets.DOCKER_HUB_LOGIN }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} docker.io
@@ -56,4 +58,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          The ${{ github.event_name }} event from ${{ github.actor }}. Build ${{ env.PROJECT_NAME }} passed!
+          The ${{ github.event_name }} event from ${{ github.actor }}. Build ${{ env.PROJECT_NAME }} ${{ env.STATUS }}!
