@@ -43,7 +43,7 @@ jobs:
 
     - name: Docker build
       run: |
-        cd $PROJECT_NAME/$BUILD_DIR
+        cd $BUILD_DIR
         docker build -t $DOCKER_REP_NAME .
     - name: Docker push
       run: |
