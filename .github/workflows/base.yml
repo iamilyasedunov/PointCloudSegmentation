@@ -49,18 +49,15 @@ jobs:
           pwd
           docker build -t ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER $BUILD_DIR/
           docker images
+      - name: Docker push
+        run: |
+          docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
       - name: Send telegram notification
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           args: The PointCloudSegmentation build № $BUILD_NUMBER builded.
-      - name: Docker images
-        run: |
-          
-      - name: Docker push
-        run: |
-          docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
     # Runs a single command using the runners shell
     # - name: clone repo
     #  run: git clone https://github.com/iamilyasedunov/PointCloudSegmentation.git -b dev
