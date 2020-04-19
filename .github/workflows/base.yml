@@ -3,8 +3,9 @@
 name: CI
 
 env: 
-  PROJECT_NAME: PointCloudSegmentation
-  BUILD_DIR:    docker-env
+  PROJECT_NAME:    PointCloudSegmentation
+  BUILD_DIR:       docker-env
+  DOCKER_REP_NAME: point_cloud_segmentation
 on:
   fork:
   push:
@@ -13,17 +14,17 @@ on:
     branches: [ master ]
 
 jobs:
-  #codeStyle:
-  #  runs-on: [ubuntu-latest]
-  #  steps: 
-  #    - uses: actions/checkout@v2
-  #    - name: autopep8
-  #      uses: peter-evans/autopep8@v1
-  #      with:
-  #        args: --recursive --in-place --aggressive --aggressive .
+  codeStyle:
+    runs-on: [ubuntu-latest]
+    steps: 
+      - uses: actions/checkout@v2
+      - name: autopep8
+        uses: peter-evans/autopep8@v1
+        with:
+          args: --recursive --in-place --aggressive --aggressive .
   build:
     runs-on: ubuntu-latest
-  # needs: codeStyle
+    needs: codeStyle
     steps:
     - uses: actions/checkout@v2
       name: Actions git repo
@@ -40,9 +41,12 @@ jobs:
     - name: Print new build number
       run: echo "Build number is $BUILD_NUMBER"
 
-#    - name: Docker build
-#      run: |
-#        docker build -t  $PROJECT_NAME/$BUILD_DIR
+    - name: Docker build
+      run: |
+        docker build -t $PROJECT_NAME:$BUILD_NUMBER $PROJECT_NAME/$BUILD_DIR
+    - name: Docker push
+      run: |
+        docker push $DOCKER_HUB_LOGIN/$DOCKER_REP_NAME:$BUILD_NUMBER
     # Runs a single command using the runners shell
     # - name: clone repo
     #  run: git clone https://github.com/iamilyasedunov/PointCloudSegmentation.git -b dev
