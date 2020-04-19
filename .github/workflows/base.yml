@@ -49,7 +49,7 @@ jobs:
           docker build -t $DOCKER_REP_NAME $BUILD_DIR/
       - name: Docker push
         run: |
-          docker push $DOCKER_HUB_LOGIN/$DOCKER_REP_NAME:$BUILD_NUMBER
+          docker push $DOCKER_REP_NAME:$BUILD_NUMBER
     # Runs a single command using the runners shell
     # - name: clone repo
     #  run: git clone https://github.com/iamilyasedunov/PointCloudSegmentation.git -b dev
