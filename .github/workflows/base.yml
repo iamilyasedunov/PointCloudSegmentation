@@ -26,10 +26,10 @@ jobs:
     needs: codeStyle
     steps:
     - uses: actions/checkout@v2    
-    - name: Docker version
+    - name: Docker login
       run: |
           docker --version
-          ls 
+          docker login --username=$DOCKER_HUB_LOGIN --password=$DOCKER_HUB_PASSWORD
           pwd
     # Runs a single command using the runners shell
     # - name: clone repo
