@@ -56,4 +56,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          The ${{ github.event_name }} event from ${{ env.PROJECT_NAME }}. Build ${{ github.actor }} passed!
+          The ${{ github.event_name }} event from ${{ github.actor }}. Build ${{ env.PROJECT_NAME }} passed!
