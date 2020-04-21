@@ -12,6 +12,7 @@ on:
     branches: [ dev, master ]
   pull_request:
     branches: [ master ]
+  status: {}
 
 jobs:
   codeStyle:
@@ -55,4 +56,5 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          The ${{ github.event_name }} event from ${{ github.actor }}. Build ${{ env.PROJECT_NAME }} ${{ steps.action.outputs.status }}!
+          if: steps.action.outputs.status == 'success'
+          The ${{ github.event_name }} event from ${{ github.actor }}. Build ${{ env.PROJECT_NAME }}!
