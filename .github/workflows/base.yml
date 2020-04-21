@@ -16,13 +16,19 @@ on:
 jobs:
   codeStyle:
     runs-on: [ubuntu-latest]
-    steps: 
-      - uses: actions/checkout@v2
-        name: Actions git repo
-      - uses: peter-evans/autopep8@v1
-        name: Autopep8
-        with:
-          args: --recursive --in-place --aggressive --aggressive .
+    steps:
+    - uses: actions/checkout@master
+    - name: GitHub Action for Flake8
+      uses: cclauss/GitHub-Action-for-Flake8@master
+      with:
+        args: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+    - uses: actions/checkout@v2
+      name: Actions git repo
+    - uses: peter-evans/autopep8@v1
+      name: Autopep8
+      with:
+        args: --recursive --in-place --aggressive --aggressive .
   build:
     runs-on: ubuntu-latest
     needs: codeStyle
