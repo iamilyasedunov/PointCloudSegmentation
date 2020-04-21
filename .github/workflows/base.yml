@@ -50,6 +50,7 @@ jobs:
      #   run: |
      #     docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
     - uses: appleboy/telegram-action@master
+      name: Notification to Telegram
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
