@@ -52,9 +52,9 @@ jobs:
      #     docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
     - uses: appleboy/telegram-action@master
       name: Notification to Telegram
+      if: steps.action.outputs.status == 'success'
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          if: steps.action.outputs.status == 'success'
           The ${{ github.event_name }} event from ${{ github.actor }}. Build ${{ env.PROJECT_NAME }}!
