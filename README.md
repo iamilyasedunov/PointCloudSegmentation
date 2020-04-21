@@ -1,4 +1,5 @@
 # PointCloudSegmentation
+![CI](https://github.com/iamilyasedunov/PointCloudSegmentation/workflows/CI/badge.svg?event=push)
 ---
 <img src="https://github.com/VirtualRoyalty/PointCloudSegmentation/blob/master/obstacle-detection/examples/img/MainGifwithLabels.gif" width="1000">
 
@@ -27,7 +28,7 @@
 
 ## How to dockerize this:
 ---
-- In *base-notebook/* folder start Docker and build an image:
+- In *docker-env/* folder start Docker and build an image:
   `$ docker build -t jupyter .`
 - After that you can verify a successful build by running: `$ docker images`
 - Then start container by running:<br><br>
