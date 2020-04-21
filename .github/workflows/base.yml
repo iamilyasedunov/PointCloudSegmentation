@@ -23,20 +23,14 @@ jobs:
       with:
         args: flake8 . --ignore E,F,W --count --show-source --statistics
 
-    - uses: actions/checkout@v2
-      name: Actions git repo
-    - uses: peter-evans/autopep8@v1
-      name: Autopep8
-      with:
-        args: --recursive --in-place --aggressive --aggressive .
   build:
     runs-on: ubuntu-latest
     needs: codeStyle
     steps:
     - uses: actions/checkout@v2
+      id: action
       name: Actions git repo
-      env: 
-        STATUS : ${{ job.status }}
+
      # - name: Docker login
      #   run: |
      #     docker login -u ${{ secrets.DOCKER_HUB_LOGIN }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} docker.io
@@ -55,13 +49,9 @@ jobs:
      # - name: Docker push
      #   run: |
      #     docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
-  notification:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
     - uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          The ${{ github.event_name }} event from ${{ github.actor }}. Build ${{ env.PROJECT_NAME }} ${{ env.STATUS }}!
+          The ${{ github.event_name }} event from ${{ github.actor }}. Build ${{ env.PROJECT_NAME }} ${{ steps.action.outputs.status }}!
