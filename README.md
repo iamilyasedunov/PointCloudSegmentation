@@ -1,6 +1,5 @@
 # PointCloudSegmentation
-![CI](https://github.com/iamilyasedunov/PointCloudSegmentation/workflows/CI/badge.svg?branch=dev)
-![test](https://github.com/iamilyasedunov/PointCloudSegmentation/workflows/test/badge.svg?branch=dev)
+
 ---
 <img src="https://github.com/VirtualRoyalty/PointCloudSegmentation/blob/master/obstacle-detection/examples/img/MainGifwithLabels.gif" width="1000">
 
