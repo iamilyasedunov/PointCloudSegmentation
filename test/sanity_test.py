@@ -5,12 +5,12 @@ import pandas as pd
 import yaml
 
 sys.path.append('obstacle-detection\\')
+
 from pipeline import common
 
 num = '066'
-path_to_label = '../dataset_sampling/rangenet_sampling/dataset/sequences/00/labels/000'
-path_to_scan = '../dataset_sampling/rangenet_sampling/dataset/sequences/00/velodyne/000'
-
+path_to_label = './test/test-files/000'
+path_to_scan = './test/test-files/000'
 
 obstacle_lst =  {10: 'car',
                  11: 'bicycle',
