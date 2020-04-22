@@ -3,6 +3,8 @@
 name: CI
 
 env: 
+  PUSH_STATUS: ❌
+  BUILD_STATUS: ❌
   PROJECT_NAME:    PointCloudSegmentation
   BUILD_DIR:       docker-env
   DOCKER_REP_NAME: point_cloud_segmentation
@@ -50,11 +52,24 @@ jobs:
         docker tag ${{ secrets.DOCKER_HUB_LOGIN }} ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
         docker images
       continue-on-error: true
+    - name: Set environment variables build
+      uses: allenevans/set-env@v1.0.0
+      if: steps.build.outcome == 'Success'
+      with:
+        BUILD_STATUS: ✅
     - name: Docker push
       id: push
       run: |
         docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
       continue-on-error: true
+    - name: Set emoji push
+      id: emoji
+      run: echo ::set-env name=output::yellow
+    - name: Set environment variables push
+      uses: allenevans/set-env@v1.0.0
+      if: steps.push.outcome == 'Success'
+      with:
+        PUSH_STATUS: ✅
     - uses: appleboy/telegram-action@master
       name: Notification to Telegram
       with:
@@ -62,5 +77,4 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
           The ${{ github.event_name }} event from ${{ github.actor }}. 
-          ${{ env.PROJECT_NAME }} build status: ${{ steps.build.outcome }}, build number: {{ $$BUILD_NUMBER }}. ${{ env.PROJECT_NAME }} push to docker hub status: ${{ steps.push.outcome }}. Name build: $DOCKER_REP_NAME:ver_$BUILD_NUMBER
-        
+          ${{ env.PROJECT_NAME }} build status: ${{ steps.build.outcome }} ${{ BUILD_STATUS }}, build number: ${{ BUILD_NUMBER }}. ${{ env.PROJECT_NAME }} push to docker hub status: ${{ steps.push.outcome }} ${{ BUILD_STATUS }}. Name build: ${{  DOCKER_REP_NAME:ver_$BUILD_NUMBER }}.
