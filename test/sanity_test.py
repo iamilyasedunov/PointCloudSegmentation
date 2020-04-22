@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import yaml
 
-sys.path.append('obstacle-detection\\')
+sys.path.append('./obstacle-detection/')
 
 from pipeline import common
 
