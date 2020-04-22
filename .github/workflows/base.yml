@@ -2,11 +2,8 @@
 
 name: CI
 
-<<<<<<< HEAD
 env:
-=======
-env: 
->>>>>>> remotes/origin/master
+
   PUSH_STATUS: ❌
   BUILD_STATUS: ❌
   PROJECT_NAME:    PointCloudSegmentation
