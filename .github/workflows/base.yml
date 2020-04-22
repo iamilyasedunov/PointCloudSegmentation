@@ -31,29 +31,29 @@ jobs:
     - uses: actions/checkout@v2
       name: Actions git repo
       continue-on-error: true
-#    - name: Docker login
-#      run: |
-#        docker login -u ${{ secrets.DOCKER_HUB_LOGIN }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} docker.io
-#      continue-on-error: true
-#    - name: Generate build number
-#      uses: einaregilsson/build-number@v2 
-#      with:
-#        token: ${{secrets.GIT_TOKEN}}        
-#    - name: Print new build number
-#      run: echo "Build number is $BUILD_NUMBER"
-#    - name: Docker build
-#      id: build
-#      run: |
-#        ls
-#        docker build -t ${{ secrets.DOCKER_HUB_LOGIN }} $BUILD_DIR/
-#        docker tag ${{ secrets.DOCKER_HUB_LOGIN }} ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
-#        docker images
-#      continue-on-error: true
-#    - name: Docker push
-#      id: push
-#      run: |
-#        docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
-#      continue-on-error: true
+    - name: Docker login
+      run: |
+        docker login -u ${{ secrets.DOCKER_HUB_LOGIN }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} docker.io
+      continue-on-error: true
+    - name: Generate build number
+      uses: einaregilsson/build-number@v2 
+      with:
+        token: ${{secrets.GIT_TOKEN}}        
+    - name: Print new build number
+      run: echo "Build number is $BUILD_NUMBER"
+    - name: Docker build
+      id: build
+      run: |
+        ls
+        docker build -t ${{ secrets.DOCKER_HUB_LOGIN }} $BUILD_DIR/
+        docker tag ${{ secrets.DOCKER_HUB_LOGIN }} ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
+        docker images
+      continue-on-error: true
+    - name: Docker push
+      id: push
+      run: |
+        docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
+      continue-on-error: true
     - uses: appleboy/telegram-action@master
       name: Notification to Telegram
       with:
