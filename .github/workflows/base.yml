@@ -45,6 +45,7 @@ jobs:
       id: build
       run: |
         ls
+        docker system prune -a
         docker build -t ${{ secrets.DOCKER_HUB_LOGIN }} $BUILD_DIR/
         docker tag ${{ secrets.DOCKER_HUB_LOGIN }} ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
         docker images
@@ -61,6 +62,5 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
           The ${{ github.event_name }} event from ${{ github.actor }}. 
-          ${{ env.PROJECT_NAME }} build status: ${{ steps.build.outcome }}, build number: {{ $BUILD_NUMBER }}.
-          ${{ env.PROJECT_NAME }} push to docker hub status: ${{ steps.push.outcome }}.
-          Name build: {{ $DOCKER_REP_NAME:ver_$BUILD_NUMBER }}
+          ${{ env.PROJECT_NAME }} build status: ${{ steps.build.outcome }}, build number: {{ $$BUILD_NUMBER }}. ${{ env.PROJECT_NAME }} push to docker hub status: ${{ steps.push.outcome }}. Name build: $DOCKER_REP_NAME:ver_$BUILD_NUMBER
+        
