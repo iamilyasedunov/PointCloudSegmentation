@@ -76,4 +76,3 @@ jobs:
           docker run ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_24
       - name: Install Goss
         uses: e1himself/goss-installation-action@v1
-      - name: Goss run
