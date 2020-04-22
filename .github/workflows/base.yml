@@ -77,4 +77,4 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
           The ${{ github.event_name }} event from ${{ github.actor }}. 
-          ${{ env.PROJECT_NAME }} build status: ${{ steps.build.outcome }} ${{ BUILD_STATUS }}, build number: ${{ BUILD_NUMBER }}. ${{ env.PROJECT_NAME }} push to docker hub status: ${{ steps.push.outcome }} ${{ BUILD_STATUS }}. Name build: ${{  DOCKER_REP_NAME:ver_$BUILD_NUMBER }}.
+          ${{ env.PROJECT_NAME }} build status: ${{ steps.build.outcome }} ${{ env.BUILD_STATUS }}, build number: ${{ BUILD_NUMBER }}. ${{ env.PROJECT_NAME }} push to docker hub status: ${{ steps.push.outcome }} ${{ env.PUSH_STATUS }}. Name build: ${{  DOCKER_REP_NAME:ver_$BUILD_NUMBER }}.
