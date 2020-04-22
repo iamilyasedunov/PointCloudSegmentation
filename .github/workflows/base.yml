@@ -7,55 +7,74 @@ env:
   BUILD_DIR:       docker-env
   DOCKER_REP_NAME: point_cloud_segmentation
 on:
-  fork:
+  release:
+    types: [published]
   push:
     branches: [ dev, master ]
   pull_request:
     branches: [ master ]
 
 jobs:
-  codeStyle:
-    runs-on: [ubuntu-latest]
-    steps: 
-      - uses: actions/checkout@v2
-        name: Actions git repo
-      - uses: peter-evans/autopep8@v1
-        name: Autopep8
-        with:
-          args: --recursive --in-place --aggressive --aggressive .
-  build:
+#  codeStyle:
+#    runs-on: [ubuntu-latest]
+#    steps:
+#    - uses: actions/checkout@master
+#    - name: GitHub Action for Flake8
+#      uses: cclauss/GitHub-Action-for-Flake8@master
+#      with:
+#       args: flake8 . --ignore E,F,W --count --show-source --statistics
+
+#  build:
+#    runs-on: ubuntu-latest
+#    needs: codeStyle
+#    steps:
+#    - uses: actions/checkout@v2
+#      name: Actions git repo
+#      continue-on-error: true
+#    - name: Docker login
+#      run: |
+#        docker login -u ${{ secrets.DOCKER_HUB_LOGIN }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} docker.io
+#      continue-on-error: true
+#    - name: Generate build number
+#      uses: einaregilsson/build-number@v2 
+#      with:
+#        token: ${{secrets.GIT_TOKEN}}        
+#    - name: Print new build number
+#      run: echo "Build number is $BUILD_NUMBER"
+#    - name: Docker build
+#      id: build
+#      run: |
+#        ls
+#        docker build -t ${{ secrets.DOCKER_HUB_LOGIN }} $BUILD_DIR/
+#        docker tag ${{ secrets.DOCKER_HUB_LOGIN }} ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
+#        docker images
+#      continue-on-error: true
+#    - name: Docker push
+#      id: push
+#      run: |
+#        docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
+#      continue-on-error: true
+#    - uses: appleboy/telegram-action@master
+#      name: Notification to Telegram
+#      with:
+#        to: ${{ secrets.TELEGRAM_TO }}
+#        token: ${{ secrets.TELEGRAM_TOKEN }}
+#        message: |
+#          The ${{ github.event_name }} event from ${{ github.actor }}. 
+#          ${{ env.PROJECT_NAME }} build status: ${{ steps.build.outcome }}, build number: {{ $BUILD_NUMBER }}.
+#          ${{ env.PROJECT_NAME }} push to docker hub status: ${{ steps.push.outcome }}.
+#          Name build: {{ $DOCKER_REP_NAME:ver_$BUILD_NUMBER }}
+  test: 
     runs-on: ubuntu-latest
-    needs: codeStyle
+   # needs: build
     steps:
-    - uses: actions/checkout@v2
-      name: Actions git repo
-      env: 
-        STATUS : ${{ job.status }}
-     # - name: Docker login
-     #   run: |
-     #     docker login -u ${{ secrets.DOCKER_HUB_LOGIN }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} docker.io
-     # - name: Generate build number
-     #   uses: einaregilsson/build-number@v2 
-     #   with:
-     #     token: ${{secrets.GIT_TOKEN}}        
-     # - name: Print new build number
-     #   run: echo "Build number is $BUILD_NUMBER"
-     # - name: Docker build
-     #   run: |
-     #     ls
-     #     docker build -t ${{ secrets.DOCKER_HUB_LOGIN }} $BUILD_DIR/
-     #     docker tag ${{ secrets.DOCKER_HUB_LOGIN }} ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
-     #     docker images
-     # - name: Docker push
-     #   run: |
-     #     docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
-  notification:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: |
-          The ${{ github.event_name }} event from ${{ github.actor }}. Build ${{ env.PROJECT_NAME }} ${{ env.STATUS }}!
+      - name: Docker pull
+        id: pull
+        run: |
+          docker pull ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_24
+          docker images
+      - name: Install Goss
+        uses: e1himself/goss-installation-action@v1
+      - name: Goss run
+        run: |
+          dgoss run -it --rm -p 8888:8888 ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_24
