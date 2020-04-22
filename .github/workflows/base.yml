@@ -2,7 +2,11 @@
 
 name: CI
 
+<<<<<<< HEAD
 env:
+=======
+env: 
+>>>>>>> remotes/origin/master
   PUSH_STATUS: ❌
   BUILD_STATUS: ❌
   PROJECT_NAME:    PointCloudSegmentation
@@ -47,6 +51,7 @@ jobs:
       id: build
       run: |
         ls
+        docker system prune -a
         docker build -t ${{ secrets.DOCKER_HUB_LOGIN }} $BUILD_DIR/
         docker tag ${{ secrets.DOCKER_HUB_LOGIN }} ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
         docker images
