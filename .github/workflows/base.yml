@@ -56,11 +56,21 @@ jobs:
       if: steps.build.outcome == 'Success'
       with:
         BUILD_STATUS: ✅
+    - name: Set environment variables build
+      uses: allenevans/set-env@v1.0.0      
+      if: steps.build.outcome == 'Failure'
+      with:
+        BUILD_STATUS: ❌
     - name: Docker push
       id: push
       run: |
         docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
       continue-on-error: true
+    - name: Set environment variables push
+      uses: allenevans/set-env@v1.0.0      
+      if: steps.push.outcome == 'Failure'
+      with:
+        PUSH_STATUS: ❌
     - name: Set environment variables push
       uses: allenevans/set-env@v1.0.0
       if: steps.push.outcome == 'Success'
