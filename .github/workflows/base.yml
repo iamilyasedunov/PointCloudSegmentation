@@ -2,7 +2,8 @@
 
 name: CI
 
-env: 
+env:
+
   PUSH_STATUS: ❌
   BUILD_STATUS: ❌
   PROJECT_NAME:    PointCloudSegmentation
@@ -11,8 +12,6 @@ env:
 on:
   release:
     types: [published]
-  push:
-    branches: [ dev, master ]
   pull_request:
     branches: [ master ]
 
@@ -24,7 +23,7 @@ jobs:
     - name: GitHub Action for Flake8
       uses: cclauss/GitHub-Action-for-Flake8@master
       with:
-       args: flake8 . --ignore E,F,W --count --show-source --statistics
+        args: flake8 . --ignore E,F,W --count --show-source --statistics
 
   build:
     runs-on: ubuntu-latest
@@ -47,7 +46,7 @@ jobs:
       id: build
       run: |
         ls
-        docker system prune -a
+        docker system prune -a -f --volumes
         docker build -t ${{ secrets.DOCKER_HUB_LOGIN }} $BUILD_DIR/
         docker tag ${{ secrets.DOCKER_HUB_LOGIN }} ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
         docker images
@@ -57,14 +56,21 @@ jobs:
       if: steps.build.outcome == 'Success'
       with:
         BUILD_STATUS: ✅
+    - name: Set environment variables build
+      uses: allenevans/set-env@v1.0.0      
+      if: steps.build.outcome == 'Failure'
+      with:
+        BUILD_STATUS: ❌
     - name: Docker push
       id: push
       run: |
         docker push ${{ secrets.DOCKER_HUB_LOGIN }}/$DOCKER_REP_NAME:ver_$BUILD_NUMBER
       continue-on-error: true
-    - name: Set emoji push
-      id: emoji
-      run: echo ::set-env name=output::yellow
+    - name: Set environment variables push
+      uses: allenevans/set-env@v1.0.0      
+      if: steps.push.outcome == 'Failure'
+      with:
+        PUSH_STATUS: ❌
     - name: Set environment variables push
       uses: allenevans/set-env@v1.0.0
       if: steps.push.outcome == 'Success'
@@ -77,4 +83,4 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
           The ${{ github.event_name }} event from ${{ github.actor }}. 
-          ${{ env.PROJECT_NAME }} build status: ${{ steps.build.outcome }} ${{ env.BUILD_STATUS }}, build number: $BUILD_NUMBER. ${{ env.PROJECT_NAME }} push to docker hub status: ${{ steps.push.outcome }} ${{ env.PUSH_STATUS }}. Name build: ${{ env.DOCKER_REP_NAME }}:ver_$BUILD_NUMBER.
+          ${{ env.PROJECT_NAME }} build status: ${{ steps.build.outcome }} ${{ env.BUILD_STATUS }}. Build number: ${{ env.BUILD_NUMBER }}. ${{ env.PROJECT_NAME }} push to docker hub status: ${{ steps.push.outcome }} ${{ env.PUSH_STATUS }}. Name build: ${{ env.DOCKER_REP_NAME }}:ver_${{ env.BUILD_NUMBER }}.
