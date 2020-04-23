@@ -7,9 +7,6 @@ env:
   BUILD_DIR:       docker-env
   DOCKER_REP_NAME: point_cloud_segmentation
 on:
-  release:
-    types: [published]
-
   pull_request:
     branches: [ master ]
 
